@@ -5,6 +5,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -25,7 +27,7 @@ Command Line: grep [-v] [-i] [-r] word inputname.txt
 
 public class Main {
     @Argument()
-    private List<String> wordAndFilename;
+    private String[] wordAndFilename;
 
     @Option(name = "-r", usage = "regex find")
     private boolean isRegex;
@@ -45,18 +47,8 @@ public class Main {
         try {
             parser.parseArgument(args);
             checkIllegalArgs(args);
-            String word;
-            String filename;
-            if (wordAndFilename.size() == 1) {
-                word = ".+";
-                isRegex = true;
-                filename = wordAndFilename.get(0);
-            } else {
-                word = wordAndFilename.get(0);
-                filename = wordAndFilename.get(1);
-            }
             Finder finder = new Finder(isRegex, reverse, caseIgnore);
-            System.out.print(finder.start(word, filename));
+            System.out.print(String.join("\n", finder.start(wordAndFilename)));
         } catch (CmdLineException ex) {
             System.err.println(ex.getMessage());
             parser.printUsage(System.err);
@@ -67,8 +59,7 @@ public class Main {
     }
 
     private void checkIllegalArgs(String[] args) throws CmdLineException {
-        if (wordAndFilename.size() > 2 || wordAndFilename.size() < 1) {
+        if (wordAndFilename.length != 2)
             throw new CmdLineException("invalid set of arguments");
-        }
     }
 }

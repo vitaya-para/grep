@@ -12,11 +12,11 @@ public class SearchWordRegex extends SearchWord {
     @Override
     public boolean findWord(String line, String need) {
         Pattern pattern;
-        if (caseIgnore) {
+        if (caseIgnore)
             pattern = Pattern.compile(need, Pattern.CASE_INSENSITIVE);
-        } else {
+        else
             pattern = Pattern.compile(need);
-        }
+
         Matcher out = pattern.matcher(line);
         return out.find();
     }

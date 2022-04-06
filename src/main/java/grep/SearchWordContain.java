@@ -12,8 +12,7 @@ public class SearchWordContain extends SearchWord {
         if (caseIgnore) {
             copyNeed = need.toLowerCase();
             copyLine = line.toLowerCase();
-        }else
-        {
+        } else {
             copyLine = line;
             copyNeed = need;
         }
