@@ -26,8 +26,11 @@ Command Line: grep [-v] [-i] [-r] word inputname.txt
 
 
 public class Main {
-    @Argument()
-    private String[] wordAndFilename;
+    @Argument(metaVar = "word", required = true, index = 0, usage = "Pattern or word for finding it")
+    private String word;
+
+    @Argument(metaVar = "filename", required = true, index = 1, usage = "Way to the file")
+    private String filename;
 
     @Option(name = "-r", usage = "regex find")
     private boolean isRegex;
@@ -48,7 +51,7 @@ public class Main {
             parser.parseArgument(args);
             checkIllegalArgs(args);
             Finder finder = new Finder(isRegex, reverse, caseIgnore);
-            System.out.print(String.join("\n", finder.start(wordAndFilename)));
+            System.out.print(String.join("\n", finder.start(word, filename)));
         } catch (CmdLineException ex) {
             System.err.println(ex.getMessage());
             parser.printUsage(System.err);
@@ -59,7 +62,7 @@ public class Main {
     }
 
     private void checkIllegalArgs(String[] args) throws CmdLineException {
-        if (wordAndFilename.length != 2)
+        if (word == null || filename == null)
             throw new CmdLineException("invalid set of arguments");
     }
 }
