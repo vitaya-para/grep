@@ -1,23 +1,22 @@
 package grep;
 
+import com.mifmif.common.regex.Generex;
 import org.junit.Before;
 import org.junit.Test;
-import net.moznion.random.string.RandomStringGenerator;
 
 import static org.junit.Assert.*;
 
 public class SearchWordRegexTest {
     private SearchWordRegex myRegex;
-    private RandomStringGenerator generator;
+    private Generex generator;
 
     @Before
     public void Before() {
-        generator = new RandomStringGenerator();
-        generator.setNumOfUpperLimit(10);
+        generator = new Generex("\\w+");
     }
 
     private void baseTest() {
-        String line = generator.generateByRegex("\\w+");
+        String line = generator.random(1,20);
         assertTrue(myRegex.findWord(line, line));
         assertTrue(myRegex.findWord(line + "3", line));
         assertTrue(myRegex.findWord("abcdefg", "[a-z]+"));

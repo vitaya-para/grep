@@ -1,25 +1,24 @@
 package grep;
 
+import com.mifmif.common.regex.Generex;
 import org.junit.Before;
 import org.junit.Test;
-import net.moznion.random.string.RandomStringGenerator;
 
 import static org.junit.Assert.*;
 
 
 public class SearchWordContainTest {
     private SearchWordContain search;
-    private RandomStringGenerator generator;
+    private Generex generator;
 
 
     @Before
     public void before() {
-        generator = new RandomStringGenerator();
-        generator.setNumOfUpperLimit(10);
+        generator = new Generex("\\w+");
     }
 
     private void baseTest() {
-        String line = generator.generateByRegex("\\w+");
+        String line = generator.random(1,25);
         assertTrue(search.findWord(line, line));
         assertTrue(search.findWord(line + "3", line));
         assertFalse(search.findWord(line, line + "3"));
